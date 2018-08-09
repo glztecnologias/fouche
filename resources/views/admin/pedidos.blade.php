@@ -33,6 +33,7 @@
            <a class="btn btn-info btn-xs" href="/admin/pedidos/{{$pedido->id}}" title="Ver detalle del Pedido" data-toggle="tooltip" data-placement="top">
              <i class="fa fa-eye" aria-hidden="true"></i>
            </a>
+           <!--
            @if(!$pedido->orden_corte->isEmpty())
            <span title="Orden de Corte Generada!" data-toggle="tooltip" data-placement="top">
            <a class="btn btn-primary btn-xs modalx  disabled" href="#"  title="Orden de Corte Generada!" data-toggle="tooltip" data-placement="top">
@@ -44,7 +45,7 @@
              <i class="fa fa-scissors" aria-hidden="true"></i>
            </a>
            @endif
-
+            -->
 
            <!--<a class="btn btn-danger btn-xs" href="#">
              <i class="fa fa-trash" aria-hidden="true"></i>
