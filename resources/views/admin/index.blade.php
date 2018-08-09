@@ -9,7 +9,7 @@
 <div class="row">
   <div class="col-xs-6 col-sm-3">
     <div class="" style="text-align:center;background-color:#337ab7;padding: 25px;border-radius:10px;max-width:auto;">
-      <a href="/empresa/empleados">
+      <a href="/admin/empresas">
           <i class="fa fa-university" aria-hidden="true" style="font-size:7em;color:white"></i>
       </a>
       <h3 style="color:white;font-weight:bold;">{{ $empresas->count()}}</h3>
@@ -19,7 +19,7 @@
 
   <div class="col-xs-6 col-sm-3">
     <div class="" style="text-align:center;background-color:#337ab7;padding: 25px;border-radius:10px;width:auto;">
-      <a href="/empresa/pedidos_medidas">
+      <a href="/admin/pedidos">
 
           <i class="fa fa-hand-o-up" aria-hidden="true" style="font-size:7em;color:white"></i>
       </a>
@@ -29,7 +29,7 @@
       </div>
       <div class="col-xs-6 col-sm-3">
       <div class="" style="text-align:center;background-color:#337ab7;padding: 25px;border-radius:10px;width:auto;">
-        <a href="/empresa/composturas" style="color:white;">
+        <a href="/admin/composturas" style="color:white;">
             <i class="fa fa-scissors" aria-hidden="true" style="font-size:7em;"></i>
         </a>
         <h3 style="color:white;font-weight:bold;" >{{ $composturas->count()}}   </h3>
