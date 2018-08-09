@@ -12,7 +12,6 @@
       <tr>
          <th>#</th>
          <th>Empresa</th>
-         <th>Seccion</th>
          <th>Fecha</th>
          <th>Cantidad</th>
          <th>N° Orden Compra</th>
@@ -25,7 +24,6 @@
       <tr>
          <th scope="row">{{$i}}</th>
          <td>{{$pedido->empresa->nombre}}</td>
-         <td>{{$pedido->seccion_empresa}}</td>
          <td>{{$pedido->created_at}}</td>
          <td>{{$pedido->total_empleados}}</td>
          <td>{{$pedido->orden_de_compra}}</td>
