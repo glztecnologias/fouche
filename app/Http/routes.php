@@ -25,6 +25,12 @@ Route::get('/auth/login', 'Auth\AuthController@getLogin');
 Route::post('/auth/login', 'Auth\AuthController@postLogin');
 Route::get('/auth/logout', 'Auth\AuthController@getLogout');
 
+
+Route::get('/login/empresas', 'EmpresaController@formlogin');
+Route::get('/login/empleados', 'EmpleadoController@formlogin');
+Route::get('/login/composturas', 'EmpleadoController@formcompostura');
+
+Route::post('/crea_compostura_mail','EmpresaController@crea_compostura_mail');
 //RUTEOS CONSULTAS ASINCRONICAS (AJAX)
 
 /*--------------------------------------------------------------------------*/
@@ -34,6 +40,9 @@ Route::get('/auth/logout', 'Auth\AuthController@getLogout');
 |--------------------------------------------------------------------------*/
 //Route::get('/toma_de_medida/{rut}/{codigo}', 'EmpleadoController@index');
 Route::post('/toma_de_medida', 'EmpleadoController@index');
+Route::post('/solicitud_compostura','EmpleadoController@solicita_compostura');
+
+Route::get('/sol_comp/{id}','EmpleadoController@s_compostura');
 
 Route::post('/toma_de_medida/guardar', 'EmpleadoController@guardar_medidas');
 //RUTEOS CONSULTAS ASINCRONICAS (AJAX)
@@ -67,7 +76,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/crea_toma_medida', 'EmpresaController@crea_toma_medida');
 
     Route::post('/importExcel', 'ExcelController@importExcel');
+    Route::post('/importExcel2', 'ExcelController@importExcel2');
 
+//Rutas seleccion.
+
+   Route::get('/empresa/seleccion_toma','EmpresaController@seleccion_toma');
 
   //Rutas Pedidos & Medidas
     Route::get('/empresa/pedidos_medidas','EmpresaController@pedidos_medidas');
@@ -87,8 +100,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/crea_compostura','EmpresaController@crea_compostura');
 
 
+
     //Composturas
     Route::get('/empresa/composturas','EmpresaController@lista_composturas');
+    Route::post('/cambia_estado_compostura','EmpresaController@cambia_estado_compostura');
 
   //Rutas Cuenta
     Route::get('/empresa/cuenta','EmpresaController@cuenta');
@@ -118,16 +133,39 @@ Route::group(['middleware' => 'auth'], function () {
       Route::post('/elimina_empresa', 'AdminController@elimina_empresa');
       Route::get('/edita_empresa/{id}', 'AdminController@edita_empresa'); //formulario editar empresa
       Route::post('/actualiza_empresa/{id}', 'AdminController@actualiza_empresa'); //Actualiza empresa
-
+      Route::post('/credenciales_a_empresa','AdminController@credenciales_a_empresa');
 //Rutas Pedidos
     Route::get('/admin/pedidos', 'AdminController@pedidos');
     Route::get('/admin/pedidos/{id}', 'AdminController@trae_detalle_pedido');
     Route::get('/ficha/{id_empleado}/toma/{id_toma}', 'AdminController@trae_ficha');
+    Route::get('/nuevo_orden_corte/{id}', 'AdminController@nuevo_orden_corte'); //
+    Route::post('/admin/orden_corte/nuevo', 'AdminController@crear_orden_corte'); //
 
+//Rutas Orden de Corte.
+    Route::get('/admin/ordenes_corte', 'AdminController@ordenes_corte');
+    Route::post('/elimina_orden_corte', 'AdminController@elimina_orden_corte');
+    Route::get('/edita_orden_corte/{id}', 'AdminController@edita_orden_corte'); //formulario editar orden_corte
+    Route::post('/actualiza_orden_corte/{id}', 'AdminController@actualiza_orden_corte'); //Actualiza orden_corte
+    Route::get('/admin/orden_lista/{id}', 'AdminController@orden_lista');  //lista para llenado de medidas a folios.
+    Route::post('/edita_m_corte_unico', 'AdminController@edita_m_corte_unico');
+
+//Rutas Mantenedor de Articulos
+
+  Route::get('/admin/m_articulos', 'AdminController@m_articulos');
+  Route::get('/nuevo_articulo', 'AdminController@nuevo_articulo'); //formulario crear articulo
+  Route::post('/admin/articulo/nuevo', 'AdminController@crea_articulo');
+  Route::get('/edita_articulo/{id}', 'AdminController@edita_articulo');
+  Route::post('/actualiza_articulo/{id}', 'AdminController@actualiza_articulo'); //Actualiza articulo
+  Route::post('/elimina_articulo', 'AdminController@elimina_articulo');
 //Rutas Composturas
     Route::get('/admin/composturas','AdminController@composturas');
+    Route::post('/cambia_estado_compostura_admin','AdminController@cambia_estado_compostura');
 //Rutas Cuenta
     Route::get('/admin/cuenta', 'AdminController@cuenta');
+    Route::post('/admin/actualiza_cuenta','AdminController@actualiza_cuenta');
+
+
+
 
   });
 });

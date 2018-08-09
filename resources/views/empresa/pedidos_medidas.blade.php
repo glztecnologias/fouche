@@ -7,6 +7,24 @@
 <div class="row">
   <div class="col-md-6" style="border-right:1px dotted grey;">
     <span class="label label-success titulo-sec">Toma de Medidas</span><br>
+
+    <a  class="btn btn-link" role="button" data-toggle="collapse" href="#ayuda" aria-expanded="false" aria-controls="ayuda"  title="Clic para ver ayuda..." >
+      ¿Que puedo o debo hacer aqui?
+    </a>
+    <div class="collapse" id="ayuda">
+      <div class="well">
+      <span class="label label-primary" style="font-size:15px;font-weight:bold;">1.-Gestiona las tomas de Medida  </span><br><br>
+       En la tabla a continuacion podras ver las tomas de medidas el detalle y su respectivo porcentaje (%) de avance, puedes eliminar o editar la respectiva
+       toma de medidas.
+      <hr>
+      <span class="label label-primary" style="font-size:15px;font-weight:bold;">2.- Hacer pedido a Fouche </span><br><br>
+      Luego de que tu toma de medida esta al 100% te aparecera el boton <i class="fa fa-hand-o-up" aria-hidden="true" ></i> con el que puedes crear el pedido
+      respectivo y pasara a la tabla contigua, como un nuevo pedido.
+      <hr>
+      </div>
+    </div>
+
+
     <table class="table table-condensed data-table-tmedida">
        <thead>
           <tr>
@@ -65,6 +83,18 @@
   </div>
   <div class="col-md-6">
     <span class="label label-success titulo-sec">Pedidos</span><br>
+
+    <a  class="btn btn-link" role="button" data-toggle="collapse" href="#ayuda2" aria-expanded="false" aria-controls="ayuda2"  title="Clic para ver ayuda..." >
+      ¿Que puedo o debo hacer aqui?
+    </a>
+    <div class="collapse" id="ayuda2">
+      <div class="well">
+      <span class="label label-primary" style="font-size:15px;font-weight:bold;"> Ver Detalle y Solicitar Composturas</span><br><br>
+      En esta tabla puedes ver tus pedidos, en los cuales puedes ver el detalle y solicitar una compostura.
+      <hr>
+      </div>
+    </div>
+
     <table class="table table-condensed data-table-tmedida">
       <thead>
 

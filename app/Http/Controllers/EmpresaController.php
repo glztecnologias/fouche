@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Auth;
+use Mail as Mail;
 use Carbon\Carbon;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -26,6 +27,10 @@ class EmpresaController extends Controller
     public function index()
     {
         //
+
+
+
+
         $user = Auth::user();
         $empleados = User::where('roles_id',3)->where('empresas_id',$user->empresas_id)->get();
         $toma_medida = Toma_medida::whereEstado('abierta')->where('empresas_id',$user->empresas_id)->get();
@@ -136,6 +141,7 @@ class EmpresaController extends Controller
         $user = Auth::user();
         $empleado = new User;
         $empleado->nombre = $request->nombre;
+        $empleado->email = $request->email;
         $empleado->telefono = $request->telefono;
         $empleado->sexo = $request->sexo;
         $empleado->nombre_sucursal = $request->nombre_sucursal;
@@ -178,6 +184,7 @@ class EmpresaController extends Controller
 
 
       $empleado->nombre = $request->nombre;
+      $empleado->email = $request->email;
       $empleado->telefono = $request->telefono;
       $empleado->sexo = $request->sexo;
       $empleado->nombre_sucursal = $request->nombre_sucursal;
@@ -186,6 +193,14 @@ class EmpresaController extends Controller
       $empleado->save();
 
       return redirect('/empresa/empleados');
+
+    }
+
+    public function seleccion_toma(){
+
+      $user = Auth::user();
+      $empleados = User::where('roles_id',3)->where('empresas_id',$user->empresas_id)->get();
+      return view('empresa.seleccion_toma_medidas', compact('user','empleados'));
 
     }
 
@@ -223,6 +238,13 @@ class EmpresaController extends Controller
           $empleado_seleccionado->users_id = $id_empleado;
           $empleado_seleccionado->toma_medida_id = $toma_medida->id;
           $empleado_seleccionado->save();
+
+          $empleado = User::find($id_empleado);
+        //  return $empleado->empresa->nombre." ".$empleado->nombre." ".$codigo." ".;
+          Mail::send('mail.credenciales_empleado',['nombre'=>$empleado->nombre,'empresa'=>$empleado->empresa->nombre,'codigo'=>$codigo,'rut'=>$empleado->rut], function ($message) use ($empleado) {
+          $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+          $message->to($empleado->email)->subject('Importante! Envia tus medidas a fouche!');
+          });
         }
 
         return "ok";
@@ -380,6 +402,26 @@ class EmpresaController extends Controller
 
     }
 
+    public function crea_compostura_mail(Request $request)
+    {
+      $medida = Medida::find($request->medida);
+
+      $id_pedido = $medida->toma_medida->pedido->first()->id;
+      $compostura = new Compostura;
+      $compostura->prenda = $request->prenda;
+      $compostura->color = $request->color;
+      $compostura->error_prenda = $request->error;
+      $compostura->compostura_solicitada = $request->compostura_solicitada;
+      $compostura->pedidos_id = $id_pedido;
+
+      $compostura->users_id = $request->usuario;
+      $compostura->save();
+
+      return redirect('/auth/login')->with('mensaje', 'Tu solicitud a sido recibida!');
+
+
+    }
+
     public function lista_composturas()
     {
       $user = Auth::user();
@@ -427,6 +469,42 @@ class EmpresaController extends Controller
       $empresa->t_encargado = $request->t_encargado;
       $empresa->save();
       return redirect('/empresa/cuenta');
+    }
+
+    public function cambia_estado_compostura(Request $request)
+    {
+
+      $compostura = Compostura::find($request->id);
+      $compostura->estado = $request->estado;
+
+
+      if($request->estado=='transito_a_fouche')
+      {
+        $compostura->fecha_envio_a_fouche = date('Y-m-d H:i:s');
+      }
+
+      if($request->estado=='en_fouche')
+      {
+        $compostura->fecha_llegada_prenda = date('Y-m-d H:i:s');
+      }
+
+      if($request->estado=='transito_a_empresa')
+      {
+        $compostura->fecha_envio_a_empresa = date('Y-m-d H:i:s');
+      }
+
+      if($request->estado=='recibido')
+      {
+        $compostura->fecha_recibido = date('Y-m-d H:i:s');
+      }
+
+      $compostura->save();
+      return "ok";
+    }
+
+    public function formlogin()
+    {
+      return view('login_empresa');
     }
 
 }

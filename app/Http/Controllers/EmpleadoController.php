@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Mail as Mail;
 use App\User as User;
 use App\Toma_medida as Toma_medida;
 use App\Seleccion as Seleccion;
+use App\Empresa as Empresa;
 use App\Medida as Medida;
 use App\Talla_sugeridas as Talla_sugeridas;
 use App\Solicitud_medidas as Solicitud_medidas;
@@ -35,13 +37,10 @@ class EmpleadoController extends Controller
 
             if($medidas_chek)
             {
-              $mensaje = "Al parecer ya enviaste tus medidas!";
-              return view('login',compact('mensaje'));
+              return redirect('/login/empleados')->with('mensaje', 'Al parecer ya enviaste tus medidas!');
             }
             else
             {
-
-
             $seleccion_usuario = Seleccion::where('users_id',$usuario->id)->where('toma_medida_id',$toma->id)->first();
             if($seleccion_usuario)
             {
@@ -56,8 +55,7 @@ class EmpleadoController extends Controller
             }
             else
             {
-              $mensaje = "El usuario y/o Codigo no coinciden!";
-              return view('login',compact('mensaje'));
+              return redirect('/login/empleados')->with('mensaje', 'El usuario y/o Codigo no coinciden!');
             }
 
             }
@@ -66,8 +64,7 @@ class EmpleadoController extends Controller
           }
         else
           {
-              $mensaje = "El usuario y/o Codigo no existen!";
-              return view('login',compact('mensaje'));
+              return redirect('/login/empleados')->with('mensaje', 'El usuario y/o Codigo no existen!');
           }
 
 
@@ -194,9 +191,30 @@ class EmpleadoController extends Controller
         $medidas->m_mujeres_id = $medidas_mujer->id;
 
         $medidas->save();
-        $mensaje = "Registro de Datos Exitoso!";
-        return view('login',compact('mensaje'));
 
+        Mail::send('mail.empleado_medida',['nombre'=>$usuario->nombre,'email'=>$usuario->email,'fecha'=>$medidas->created_at], function ($message) use ($usuario) {
+        $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+        $message->to($usuario->email)->subject('Gracias por enviarnos tus medidas!');
+      });
+
+
+
+      $toma = Toma_medida::find($id_toma_de_medida);
+      $diferencia = $toma->seleccion->count()-$toma->medida->count();
+      $empresa = Empresa::find($usuario->empresas_id);
+
+      if($diferencia == 0)
+      {
+        Mail::send('mail.toma_lista',['nombre'=>$empresa->nombre,'email'=>$empresa->email], function ($message) use ($empresa) {
+        $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+        $message->to($empresa->email)->subject('Atencion! toma de medida completada al 100%!');
+        });
+
+      }
+
+
+
+        return redirect('/login/empleados')->with('mensaje', 'Registro de Datos Exitoso!');
 
       }
       if($usuario->sexo=="M" || $usuario->sexo=="m" )
@@ -238,8 +256,78 @@ class EmpleadoController extends Controller
         $medidas->m_hombres_id = $medidas_hombre->id;
         $medidas->save();
 
-        $mensaje = "Registro de Datos Exitoso!";
-        return view('login',compact('mensaje'));
+        $email_usuario = $usuario->email;
+        //$email_empresa = "" ;
+
+        Mail::send('mail.empleado_medida',['nombre'=>$usuario->nombre,'email'=>$usuario->email,'fecha'=>$medidas->created_at], function ($message) use ($usuario) {
+        $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+        $message->to($usuario->email)->subject('Gracias por enviarnos tus medidas!');
+      });
+
+      $toma = Toma_medida::find($id_toma_de_medida);
+      $diferencia = $toma->seleccion->count()-$toma->medida->count();
+      $empresa = Empresa::find($usuario->empresas_id);
+
+      if($diferencia == 0)
+      {
+        Mail::send('mail.toma_lista',['nombre'=>$empresa->nombre,'email'=>$empresa->email], function ($message) use ($empresa) {
+        $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+        $message->to($empresa->email)->subject('Atencion! toma de medida completada al 100%!');
+        });
+
+      }
+
+      return redirect('/login/empleados')->with('mensaje', 'Registro de Datos Exitoso!');
+
       }
     }
+
+    public function solicita_compostura(Request $request)
+    {
+      $email = $request->email;
+      $empleado = User::where('email',$email)->first();
+      if($empleado)
+      {
+        $medidas_empleado = Medida::where('users_id',$empleado->id)->get();
+
+        if($medidas_empleado->count() > 0)
+        {
+
+          Mail::send('mail.compostura_a_empleados',['nombre'=>$empleado->nombre,'medidas'=>$medidas_empleado,'empleado'=>$empleado], function ($message) use ($empleado) {
+          $message->from('intra.fouche@gmail.com', 'Fouche.cl');
+          $message->to($empleado->email)->subject('Tus datos para composturas Fouche!');
+        });
+
+          return redirect('/auth/login')->with('mensaje', 'Los datos e instrucciones fueron enviados a tu casilla de correo!');
+        }
+        else
+        {
+
+        }
+
+
+      }
+      else
+      {
+        return redirect('/auth/login')->with('mensaje', 'Correo ingresado no existe!');
+      }
+
+    }
+
+    public function s_compostura($id)
+    {
+      $medida = Medida::find($id);
+      return view('solicita_compostura',compact('medida'));
+    }
+
+    public function formlogin()
+    {
+      return view('login_empleado');
+    }
+
+    public function formcompostura()
+    {
+      return view('login_compostura');
+    }
+
 }

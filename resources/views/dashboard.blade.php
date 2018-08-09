@@ -21,9 +21,13 @@
       <link href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
         <link href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css" type="text/css">
         <link href="https://cdn.datatables.net/buttons/1.2.3/css/buttons.dataTables.min.css" type="text/css">
+        <link href="https://cdn.datatables.net/buttons/1.2.4/js/buttons.print.min.js" type="text/css">
 
     <script src="/assets/js/jquery.js"></script>
     <script src="/assets/js/bootstrap.min.js"></script>
+
+
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -31,6 +35,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style media="screen">
+
     hr {
         -moz-border-bottom-colors: none;
         -moz-border-image: none;
@@ -87,7 +92,7 @@ font-size: 12px;
     <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>
     <script src="https://cdn.datatables.net/select/1.2.1/js/dataTables.select.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.3/js/dataTables.buttons.min.js"></script>
-    <script src="/libs/colorbox/js/jquery.colorbox-min.js"></script>
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -104,8 +109,17 @@ font-size: 12px;
     <script src="/libs/sweetalert2/js/sweetalert2.min.js"></script>
     <link href="/libs/sweetalert2/css/sweetalert2.css" rel="stylesheet" type="text/css">
     <script src="/libs/rut/jquery.rut.js"></script>
+    <style media="screen">
 
+    </style>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.1/Chart.bundle.js"></script>-->
 
+    <link href="/libs/c3/c3.min.css" rel="stylesheet" type="text/css">
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="/libs/c3/c3.min.js"></script>
+
+    <script src="/libs/colorbox/js/jquery.colorbox-min.js"></script>
     <script type="text/javascript">
 
 
@@ -116,6 +130,10 @@ font-size: 12px;
 $(document).ready(function() {
 
 
+
+
+
+//********************************************************************************
       $('.data-table').DataTable({
             "language": {
                "lengthMenu": "Ver _MENU_ registros",
@@ -133,6 +151,26 @@ $(document).ready(function() {
           }
       });
 
+      $('.lista_orden_corte').DataTable( {
+        "scrollY": "600px",
+        "scrollCollapse": true,
+        "paging": false,
+        "language": {
+           "lengthMenu": "Ver _MENU_ registros",
+           "zeroRecords": "No existen registros",
+           "info": " Pagina _PAGE_ de _PAGES_",
+           "infoEmpty": "No existen registros",
+           "infoFiltered": "(filtered from _MAX_ total records)",
+           "search": "Buscar:",
+           "paginate": {
+            "first":      "Primero",
+            "previous":   "<<",
+            "next":       ">>",
+            "last":       "Ultimo"
+        }
+      }
+
+      });
 
       $('#tabla-empleados tfoot th').each( function () {
           var title = $(this).text();
@@ -159,7 +197,7 @@ $(document).ready(function() {
             'selectAll',
             'selectNone'
         ],
-        "scrollY":        "250px",
+        "scrollY":        "350px",
         "scrollCollapse": true,
          "paging":   false,
 
@@ -215,9 +253,62 @@ $(document).ready(function() {
 $('[data-toggle="tooltip"]').tooltip();
 
 
+//***************************************************************************************************
 
 
 
+/**var ctx2 = document.getElementById("container");
+
+var data2 = {
+    labels: [
+        "Fichas Completadas",
+        "Fichas Pendientes"
+    ],
+    datasets: [
+        {
+            data: [300, 50],
+            backgroundColor: [
+              "#449d44","#c9302c"
+            ],
+            hoverBackgroundColor: [
+                "#5cb85c","#d9534f"
+            ]
+        }]
+};
+
+var myChart2 = new Chart(ctx2, {
+  type: 'doughnut',
+      data: data2,
+      options: {
+          responsive: true,
+          legend: {
+            position: 'bottom',
+          },
+          title: {
+            display: false,
+            text: 'Chart.js Doughnut Chart'
+          },
+          animation: {
+            animateScale: true,
+            animateRotate: true
+          },
+          tooltips: {
+            callbacks: {
+              label: function(tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
+                  return previousValue + currentValue;
+                });
+                var currentValue = dataset.data[tooltipItem.index];
+                var precentage = Math.floor(((currentValue/total) * 100)+0.5);
+                return precentage + "%";
+              }
+            }
+          }
+        }
+});**/
+
+///////////////////////////////////////////////////////////////////////////////
 });
 
 function elimina_recurso(id_recurso,url_elimina){
@@ -282,7 +373,7 @@ if(!seccion || !codigo || /**!fecha_cierre ||**/ count_selec == 0){
 
           }
           if(data=="nok"){
-            swal('Error!','hay un problema en el servidor, contacta al administrador','error').then(function () { location.reload(); });
+            swal('Error!','el CODIGO ingresado esta en uso','error').then(function () { location.reload(); });
           }
         }});
       }
@@ -418,9 +509,146 @@ function imprSelec(muestra)
   var ficha=document.getElementById(muestra);
   var ventimp=window.open(' ','popimpr');ventimp.document.write(ficha.innerHTML);ventimp.document.close();ventimp.print();ventimp.close();
 }
+
+
+function envia_credenciales_empresa(id_empresa)
+{
+  $.ajax({
+  url:'/credenciales_a_empresa',
+  headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+  method: 'POST',
+  data:{id:id_empresa},
+  success: function(data){
+    if(data=="error"){
+      swal('Ops!','No se ha podido enviar el correo, intente mas tarde','warning');
+    }
+    if(data=="ok"){
+      swal('Enviado!','Las credenciales han sido enviadas con exito!','success');
+    }
+  }});
+}
+
+function editar_corte(id_corte)
+{
+
+  var id_corte_arr = id_corte.split("-");
+  var id1= id_corte_arr[0];
+  var id2= id_corte_arr[1];
+  var id3= id_corte_arr[2];
+
+  var id_td = id1+"-"+id2+"-td";
+  var id_input = id1+"-"+id2+'-input';
+
+  var contenido_fila = $("#"+id_corte).text();
+
+
+  $("#"+id_td).html('<input type="text" id="'+id_input+'" value="'+contenido_fila+'" onblur="guardar_datos_corte(\''+id_corte+'\',\''+id_td+'\',\''+id_input+'\');">');
+  //alert(contenido_fila);
+
+}
+
+function guardar_datos_corte(id_corte,id_td,id_input)
+{
+  var contenido_nuevo = $('#'+id_input).val();
+  var a_html ='<a id="'+id_corte+'" href="javascript:editar_corte(\''+id_corte+'\')" title="clic para editar" data-toggle="tooltip" data-placement="top" >'+contenido_nuevo+'</a>';
+  $("#"+id_td).html(a_html);
+
+  $.ajax({
+  url:'/edita_m_corte_unico',
+  headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+  method: 'POST',
+  data:{id:id_corte,cont:contenido_nuevo},
+  success: function(data){
+
+    if(data=="error"){
+      console.log("Dato no se ha guardado!");
+    }
+    if(data=="ok"){
+      console.log("Dato guardado con exito!");
+    }
+
+
+  }});
+}
+
+function cambia_estado(id_compostura,estado)
+{
+  swal({
+  title: '¿Estas seguro?',
+  text: "Se cambiara el estado de la solicitud",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Cambiar',
+  cancelButtonText: 'Cancelar'
+}).then(function() {
+
+  $.ajax({
+  url:'/cambia_estado_compostura',
+  headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+  method: 'POST',
+  data:{id:id_compostura,estado:estado},
+  success: function(data){
+
+console.log(data);
+
+    if(data=="error"){
+      swal('Ops!','No se puede cambiar el estado, favor contactar al administrador','warning');
+    }
+    if(data=="ok"){
+      swal('Estado Cambiado!','El estado se ha cambiado con exito','success');
+      location.reload();
+    }
+
+  }});
+
+});
+
+
+}
+
+function cambia_estado_admin(id_compostura,estado)
+{
+  swal({
+  title: '¿Estas seguro?',
+  text: "Se cambiara el estado de la solicitud",
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Cambiar',
+  cancelButtonText: 'Cancelar'
+}).then(function() {
+
+  $.ajax({
+  url:'/cambia_estado_compostura_admin',
+  headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+  method: 'POST',
+  data:{id:id_compostura,estado:estado},
+  success: function(data){
+
+console.log(data);
+
+    if(data=="error"){
+      swal('Ops!','No se puede cambiar el estado, favor contactar al administrador','warning');
+    }
+    if(data=="ok"){
+      swal('Estado Cambiado!','El estado se ha cambiado con exito','success');
+      location.reload();
+    }
+
+  }});
+
+});
+
+
+}
+
     </script>
 </head>
 <body>
+
 
     <div id="wrapper">
     @include('layouts.controls')

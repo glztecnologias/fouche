@@ -6,6 +6,11 @@
       <input type="text" name="nombre" class="form-control" value="" placeholder="Nombre" required>
     </div>
     <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" value="" placeholder="Email" required>
+    </div>
+
+    <div class="form-group">
       <label>Rut</label>
       <input type="text" name="rut" id="rut" class="form-control" value="" required oninput="checkRut(this)" placeholder="Ingrese RUT">
     </div>

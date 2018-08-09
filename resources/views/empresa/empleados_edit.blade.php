@@ -5,6 +5,12 @@
       <label>Nombre Completo</label>
       <input type="text" name="nombre" class="form-control" value="{{$empleado->nombre}}" placeholder="Nombre" required>
     </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" value="{{$empleado->email}}" placeholder="Email" required>
+    </div>
+
     <div class="form-group">
       <label>Rut</label>
       <input type="text" name="rut" id="rut" class="form-control" value="{{$empleado->rut}}" required oninput="checkRut(this)" placeholder="Ingrese RUT">

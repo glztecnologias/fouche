@@ -16,6 +16,7 @@ class CreateTomaMedidaTable extends Migration
             $table->increments('id');
             $table->string('seccion_empresa')->nullable();
             $table->string('codigo_acceso')->nullable();
+            $table->string('orden_de_compra')->nullable();
             $table->string('estado')->nullable(); //Abierta o Cerrada...
             $table->dateTime('fecha_cierre')->nullable();
             $table->integer('empresas_id')->nullable();

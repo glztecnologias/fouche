@@ -25,4 +25,9 @@ class Pedido extends Model
     {
       return $this->belongsTo('App\Empresa', 'empresas_id');
     }
+
+    public function orden_corte() //relacion con User
+    {
+      return $this->hasMany('App\Orden_corte','pedidos_id');
+    }
 }

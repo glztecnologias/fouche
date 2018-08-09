@@ -4,7 +4,25 @@
 @section('title','Empresa - Empleados')
 @section('content')
 
-<span class="label label-success titulo-sec">Empleados</span><br>
+<span class="label label-success titulo-sec">Gestion de Empleados</span><br>
+
+<a  class="btn btn-link" role="button" data-toggle="collapse" href="#ayuda" aria-expanded="false" aria-controls="ayuda"  title="Clic para ver ayuda..." >
+  ¿Que puedo hacer aqui?
+</a>
+<div class="collapse" id="ayuda">
+  <div class="well">
+  <span class="label label-primary" style="font-size:15px;font-weight:bold;">"Agregar", "Editar" y "Eliminar" empleados de mi empresa</span><br><br>
+  <p>Puedes agregar todos los empleados de tu empresa, <a href="/nuevo_empleado" class="modalx">uno por uno</a> o de <a href="/sube_multiple" class="modalx3">forma multiple</a>, editarlos con el boton
+    <a class="btn btn-primary btn-xs "><i class="fa fa-pencil-square-o" aria-hidden="true" ></i></a> y eliminarlos con el boton <a class="btn btn-danger btn-xs">
+    <i class="fa fa-trash" aria-hidden="true"></i></a> (siempre y cuando no esten en una toma de medidas y/o pedido en curso)
+  </p>
+  <hr>
+  <span class="label label-primary" style="font-size:15px;font-weight:bold;">"Buscar" y "Ordenar" la lista de empleados</span><br><br>
+  <p>En la tabla de empleados a continuacion se encuentran funciones para "Buscar" un empleado por cualquier palabra relacionada que este dentro de su informacion Ej: Rut. <br></p>
+  <p>Asi tambien se puede "Ordenar" la tabla segun se requiera por un campo especifico , solo haciendo clic en el encabezado de este. Ej: para ordenar por nombre, Haz clic en el encabezado de la tabla, campo "Nombre".</p>
+  <hr>
+  </div>
+</div>
 
 <a href="/nuevo_empleado" class="btn btn-success modalx" style="float:right;font-weight:bold;margin-left:10px;" title="Crear Nuevo"> <i class="fa fa-user" aria-hidden="true"></i> <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
 
@@ -13,8 +31,7 @@
 </a>
 <br>
 <br>
-
-  <table class="table table-condensed data-table-sp display" id="tabla-empleados">
+  <table class="table table-condensed data-table">
      <thead>
         <tr>
           <th style="display:none">ID</th>
@@ -27,18 +44,6 @@
            <th>Accion</th>
         </tr>
      </thead>
-     <tfoot>
-       <tr>
-         <th style="display:none">ID</th>
-         <th>#</th>
-          <th>Nombre</th>
-          <th>Rut</th>
-          <th>Telefono</th>
-          <th>Nombre Sucursal</th>
-          <th>sexo</th>
-          <th>Accion</th>
-       </tr>
-     </tfoot>
      <tbody>
        <?php $i=1;?>
        @forelse($empleados as $empleado)
@@ -77,54 +82,7 @@
 <br>
 <hr>
 
-<h4><span class="label label-primary">Toma de Medidas</span></h4>
 
-<form class="" action="index.html" method="post">
-
-      <div class="form-group" style="float:left;margin-right:10px;">
-      <label  for="seccion">Area o Seccion</label>
-      <input id="seccion" style="width:150px;"type="text" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Agregue la seccion de su empresa que corresponde la Toma de Medidas.">
-      </div>
-
-      <div class="form-group" style="float:left;margin-right:10px;">
-      <label  for="seccion">Codigo Acceso Empleados</label>
-      <input id="codigo" style="width:250px;"type="text" class="form-control" data-toggle="tooltip" data-placement="bottom" title="Agregue aca un codigo de acceso para sus empleados">
-      </div>
-<!--
-      <div class="form-group" style="float:left;margin-right:10px;">
-        <label  for="seccion">Codigo Acceso Empleados</label>
-      <div class="input-group" style="width:200px;">
-       <input id="codigo" class="form-control" aria-label="Text input with multiple buttons" >
-       <div class="input-group-btn"> <a href ="javascript:generar_codigo();" class="btn btn-primary">Generar</a> </div>
-    </div>
-  </div>-->
-
-          <!--  <div class="form-group" style="float:left;margin-right:10px;">
-              <label>Fecha de Cierre o Termino</label>
-                <div class='input-group date' id='fecha_cierre_cont' style="width:200px;">
-                    <input type='text' class="form-control"  id="fecha_cierre" data-toggle="tooltip" data-placement="bottom" title="Clic en icono para seleccionar fecha" />
-                    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                    </span>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#fecha_cierre_cont').datetimepicker({
-                          format: 'YYYY-MM-DD HH:mm:ss',
-                          locale: 'es-CL'
-                        });
-                    });
-                </script>
-            </div>-->
-
-  <div class="form-group" style="float:left;margin-right:10px;margin-top:15px;">
-    <a   class="btn btn-success linea_form" href="javascript:crea_toma_medida();">Crear Toma Medidas<i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-  </div>
-
-
-
-
-</form>
 
 
 @include('layouts.footer')
