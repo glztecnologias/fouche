@@ -22,6 +22,7 @@
          <th>Telefono</th>
          <th>Sucursal</th>
          <th>sexo</th>
+         <th>Estado Ficha Medidas</th>
          <th>Accion</th>
       </tr>
    </thead>
@@ -35,6 +36,14 @@
          <td>{{$empleado->telefono}}</td>
          <td>{{$empleado->nombre_sucursal}}</td>
          <td>{{ $empleado->sexo == 'm' ? 'Masculino': 'Femenino' }}</td>
+         <td>
+           @if($toma_medida->medida->where('users_id',$empleado->id)->first())
+           <strong style="color:green;">Ingresado OK</strong>
+           @else
+           <strong style="color:red;" >No Ingresado</strong>
+           
+           @endif
+         </td>
          <td>
            <a  class="btn btn-info modal4 btn-xs" href="/ficha/{{$empleado->id}}/toma/{{$toma_medida->id}}">
              <i class="fa fa-eye" aria-hidden="true"></i>

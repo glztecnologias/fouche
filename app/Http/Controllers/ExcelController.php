@@ -12,6 +12,7 @@ use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Rol as Rol;
 use App\Empresa as Empresa;
+use App\Pedido as Pedido;
 use App\Toma_medida as Toma_medida;
 use App\Seleccion as Seleccion;
 class ExcelController extends Controller
@@ -124,6 +125,14 @@ class ExcelController extends Controller
 					$message->to($empleado->email)->subject('Importante! Envia tus medidas a fouche!');
 					});
 				}
+
+			     $pedido = new Pedido;
+			     $pedido->total_empleados = $toma_medida->seleccion->count();
+			     $pedido->seccion_empresa = $toma_medida->seccion_empresa;
+			     $pedido->orden_de_compra = $toma_medida->orden_de_compra;
+			     $pedido->toma_medida_id = $toma_medida->id;
+			     $pedido->empresas_id = $user->empresas_id;
+			     $pedido->save();
 
 				return redirect()->action('EmpresaController@index');
 			}

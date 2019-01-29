@@ -25,7 +25,7 @@
          <th scope="row">{{$i}}</th>
          <td>{{$pedido->empresa->nombre}}</td>
          <td>{{$pedido->created_at}}</td>
-         <td>{{$pedido->total_empleados}}</td>
+         <td>@if($pedido->toma_medida) {{ $pedido->toma_medida->medida->count() }}@else 0 @endif completados de un total de {{$pedido->total_empleados}}</td>
          <td>{{$pedido->orden_de_compra}}</td>
          <td>
            <a class="btn btn-info btn-xs" href="/admin/pedidos/{{$pedido->id}}" title="Ver detalle del Pedido" data-toggle="tooltip" data-placement="top">
